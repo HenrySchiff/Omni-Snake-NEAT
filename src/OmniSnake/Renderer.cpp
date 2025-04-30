@@ -119,7 +119,7 @@ void GameRenderer::toggleDrawInfo() {
 NeuralNetworkRenderer::NeuralNetworkRenderer(sf::RenderWindow& window, FeedForwardNeuralNetwork nn) :
     Renderer(window), m_neuralNetwork(nn) 
 {
-    m_font.loadFromFile("C:/Users/henry/OneDrive/Desktop/Projects/C++ Projects/cmake-sfml-project/build/bin/Debug/consolas.ttf");
+    m_font.loadFromFile("../../../src/consolas.ttf");
 
     int numLayers = m_neuralNetwork.num_layers;
     std::vector<int> layerCounts(numLayers, 0);

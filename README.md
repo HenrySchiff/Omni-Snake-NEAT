@@ -1,5 +1,7 @@
 # Omni Snake NEAT
 
+https://github.com/HenrySchiff/Omni-Snake-NEAT
+
 ## Compilation Instructions (Windows)
 
 ### Prerequisites

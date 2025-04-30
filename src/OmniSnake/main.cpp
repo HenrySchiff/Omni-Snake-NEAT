@@ -55,10 +55,10 @@ int main() {
     nnWindow.setFramerateLimit(conf::max_framerate);
     nnWindow.setPosition({ nnWindow.getPosition().x + 500, nnWindow.getPosition().y });
 
-    const Mode MODE = PLAY;
-    const std::string FILE_PATH = "../data/best.json";
+    const Mode MODE = LOAD;
+    const std::string FILE_PATH = "../../../data/best.json";
 
-    const int GENERATIONS = 1;
+    const int GENERATIONS = 2;
     const int INPUTS = 5;
     const int OUTPUTS = 3;
 
