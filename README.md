@@ -24,9 +24,9 @@ https://github.com/HenrySchiff/Omni-Snake-NEAT
    cmake ..
    ```
 
-   This will set up the build system and automatically fetch SFML as a dependency.
+   This will set up the build system and automatically fetch SFML and Cereal as dependencies.
 
-4. Open `CMakeSFMLProject.sln` in Visual Studio.
+4. Open `build/Omni-Snake-NEAT.sln` in Visual Studio.
 
 5. Build and run the project from Visual Studio.
 
