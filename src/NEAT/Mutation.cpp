@@ -4,7 +4,7 @@
 #include <algorithm>
 #include "Mutation.h"
 #include "Genome.h"
-#include "../rng.h"
+#include "../OmniSnake/rng.h"
 
 using namespace Mutation;
 

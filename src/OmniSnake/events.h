@@ -15,7 +15,6 @@ inline void processEvents(sf::Window& window, SnakeEngine& engine, Controller* c
                 window.close();
             }
             if (event.key.code == sf::Keyboard::Space) {
-                std::cout << "space";
                 engine.reset(false);
             }
         }

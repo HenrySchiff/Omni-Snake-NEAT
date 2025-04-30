@@ -1,12 +1,16 @@
+#include <cereal/archives/json.hpp>
+#include <fstream>
 #include <unordered_map>
 #include <vector>
 #include <algorithm>
+#include <filesystem>
 #include "NeuralNetwork.h"
 #include "Genome.h"
 
 
-FeedForwardNeuralNetwork::FeedForwardNeuralNetwork(std::vector<int> inputs, std::vector<int> outputs, std::vector<Neuron> neurons) :
-	input_ids(inputs), output_ids(outputs), neurons(neurons) {
+FeedForwardNeuralNetwork::FeedForwardNeuralNetwork(
+	std::vector<int> inputs, std::vector<int> outputs, std::vector<Neuron> neurons, int num_layers) :
+	input_ids(inputs), output_ids(outputs), neurons(neurons), num_layers(num_layers) {
 }
 
 FeedForwardNeuralNetwork FeedForwardNeuralNetwork::create_from_genome(const Genome& genome) {
@@ -22,9 +26,12 @@ FeedForwardNeuralNetwork FeedForwardNeuralNetwork::create_from_genome(const Geno
 	}
 
 	std::vector<std::vector<int>> layers = partition_layers(inputs, outputs, genome.links);
+	int num_layers = layers.size();
 
 	std::vector<Neuron> neurons;
-	for (const std::vector<int>& layer : layers) {
+	//for (const std::vector<int>& layer : layers) {
+	for (int i = 0; i < layers.size(); i++) {
+		std::vector<int>& layer = layers.at(i);
 		for (int neuron_id : layer) {
 			std::vector<NeuronInput> neuron_inputs;
 			for (const LinkGene& link: genome.links) {
@@ -37,11 +44,11 @@ FeedForwardNeuralNetwork FeedForwardNeuralNetwork::create_from_genome(const Geno
 			}
 			auto neuron_it = std::find_if(genome.neurons.begin(), genome.neurons.end(),
 				[neuron_id](const NeuronGene& gene) {return gene.neuron_id == neuron_id; });
-			neurons.push_back(Neuron{ neuron_id, neuron_it->bias, neuron_inputs });
+			neurons.push_back(Neuron{ i, neuron_id, neuron_it->bias, neuron_inputs });
 		}
 	}
 
-	return { inputs, outputs, neurons };
+	return { inputs, outputs, neurons, num_layers };
 }
 
 std::vector<std::vector<int>> FeedForwardNeuralNetwork::partition_layers(std::vector<int>& inputs, std::vector<int>& outputs, std::vector<LinkGene> links) {
@@ -117,6 +124,10 @@ double FeedForwardNeuralNetwork::sigmoid(double x) {
 	return 1.0 / (1.0 + std::exp(-x));
 }
 
+std::vector<Neuron> FeedForwardNeuralNetwork::get_neurons() const {
+	return neurons;
+}
+
 void FeedForwardNeuralNetwork::print() {
 
 	std::cout << "\n" << "Neurons:" << "\n\n";
@@ -133,4 +144,19 @@ void FeedForwardNeuralNetwork::print() {
 	}
 
 	std::cout << "\n\n";
+}
+
+void FeedForwardNeuralNetwork::save_to_json(const std::string& filename) {
+	std::string path = "ffnn.json";
+	std::ofstream os(filename);
+	cereal::JSONOutputArchive archive(os);
+	archive(*this);
+}
+
+FeedForwardNeuralNetwork FeedForwardNeuralNetwork::load_from_json(const std::string& filename) {
+	std::ifstream is(filename);
+	cereal::JSONInputArchive archive(is);
+	FeedForwardNeuralNetwork ffnn;
+	archive(ffnn);
+	return ffnn;
 }

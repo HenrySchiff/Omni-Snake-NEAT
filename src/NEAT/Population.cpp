@@ -3,7 +3,7 @@
 #include "Population.h"
 #include "Mutation.h"
 #include "neat_config.h"
-#include "../rng.h"
+#include "../OmniSnake/rng.h"
 
 int Indexer::next() {
 	return index++;

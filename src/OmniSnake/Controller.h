@@ -2,7 +2,7 @@
 
 #include <SFML/Window.hpp>
 #include "snake.h"
-#include "NEAT/NeuralNetwork.h"
+#include "../NEAT/NeuralNetwork.h"
 #include <unordered_set>
 
 class Controller {
